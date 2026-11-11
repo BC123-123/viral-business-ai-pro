@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#10111b">
+<meta name="description" content="VIRAL BUSINESS AI PRO — crée des idées, scripts et accroches pour tes vidéos courtes business.">
+<title>VIRAL BUSINESS AI PRO</title>
+<style>
+:root{color-scheme:dark;--bg:#0c0d14;--panel:#151722;--panel2:#1c1f2c;--line:#2b2e3d;--muted:#a4a8ba;--text:#f6f7fb;--violet:#9b8cff;--cyan:#63e4d0;--pink:#ff8fc7}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 80% -10%,#30265b 0,transparent 38%),var(--bg);color:var(--text);font:15px/1.55 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{width:min(1120px,calc(100% - 36px));margin:auto}.top{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid #ffffff14}.brand{font-weight:850;letter-spacing:.08em;font-size:14px}.brand span{color:var(--violet)}.status{font-size:12px;color:var(--cyan);border:1px solid #63e4d044;padding:6px 10px;border-radius:30px}
+.hero{padding:58px 0 30px;max-width:760px}.eyebrow{color:var(--cyan);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:800}.hero h1{font-size:clamp(38px,7vw,66px);line-height:1.02;letter-spacing:-.055em;margin:14px 0}.hero h1 em{font-style:normal;color:var(--violet)}.hero p{color:var(--muted);font-size:17px;max-width:650px;margin:0}
+.layout{display:grid;grid-template-columns:360px 1fr;gap:18px;align-items:start;padding:22px 0 60px}.panel{background:linear-gradient(160deg,#191b28,#12141d);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:0 18px 50px #0002}.panel h2{font-size:17px;margin:0 0 5px}.sub{color:var(--muted);font-size:13px;margin:0 0 20px}
+label{display:block;font-size:12px;color:#c8cada;font-weight:700;margin:15px 0 7px}input,select,textarea{width:100%;background:#0e1018;border:1px solid #343747;color:var(--text);border-radius:10px;padding:12px 13px;font:inherit;outline:none}input:focus,select:focus,textarea:focus{border-color:var(--violet);box-shadow:0 0 0 3px #9b8cff20}textarea{min-height:78px;resize:vertical}
+.btn{border:0;border-radius:11px;padding:13px 16px;font-weight:800;font-size:14px;cursor:pointer;transition:.18s}.btn:hover{transform:translateY(-1px);filter:brightness(1.08)}.primary{width:100%;margin-top:20px;color:#10111b;background:linear-gradient(100deg,var(--violet),var(--cyan))}.secondary{background:#26293a;color:#f3f3fa;border:1px solid #393d50;padding:8px 11px;font-size:12px}
+.result-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.result-head h2{margin:0}.empty{border:1px dashed #414457;border-radius:14px;padding:36px 22px;text-align:center;color:var(--muted)}.empty .spark{font-size:30px;margin-bottom:8px}
+.results{display:grid;gap:13px}.result-card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:18px}.card-top{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.card-top h3{font-size:14px;margin:0}.tag{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--cyan);font-weight:800}.result-text{white-space:pre-wrap;color:#e6e7ef;font-size:14px}.copyrow{display:flex;justify-content:flex-end;margin-top:12px}.pillrow{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}.pill{font-size:11px;color:#d8d2ff;background:#9b8cff18;border:1px solid #9b8cff33;border-radius:30px;padding:5px 9px}
+.notice{color:#8f93a7;font-size:11px;line-height:1.5;margin:16px 2px 0}.footer{border-top:1px solid #ffffff14;padding:20px 0 35px;color:#777d91;font-size:12px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+@media(max-width:800px){.layout{grid-template-columns:1fr}.hero{padding-top:42px}.panel{padding:18px}}@media(max-width:420px){.wrap{width:min(100% - 24px,1120px)}.hero h1{font-size:40px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><div class="brand">VIRAL <span>BUSINESS</span> AI PRO</div><div class="status">● VERSION BÊTA · EN LIGNE</div></header>
+<section class="hero"><div class="eyebrow">Ton studio de vidéos courtes</div><h1>Des idées qui <em>captent.</em><br>Des scripts qui convertissent.</h1><p>Prépare en quelques secondes des concepts, accroches et scripts pour tes contenus business. Choisis ton sujet et personnalise le résultat.</p></section>
+<main class="layout">
+<section class="panel">
+<h2>Configure ta vidéo</h2><p class="sub">Quelques détails pour créer un contenu pertinent.</p>
+<form id="generator">
+<label for="topic">Ton activité ou ton sujet</label><input id="topic" placeholder="Ex. : gagner ses premiers clients en ligne" required>
+<label for="audience">À qui tu t'adresses ?</label><input id="audience" placeholder="Ex. : entrepreneurs débutants, freelances">
+<label for="platform">Plateforme</label><select id="platform"><option>TikTok</option><option>YouTube Shorts</option><option>Instagram Reels</option><option>Les trois plateformes</option></select>
+<label for="goal">Objectif de la vidéo</label><select id="goal"><option value="attirer">Attirer l'attention et gagner des abonnés</option><option value="eduquer">Éduquer et apporter de la valeur</option><option value="vendre">Présenter une offre et vendre</option><option value="engager">Créer des commentaires et des échanges</option></select>
+<label for="tone">Style</label><select id="tone"><option>Direct et énergique</option><option>Expert et crédible</option><option>Inspirant et motivant</option><option>Humour et décalé</option><option>Simple et pédagogique</option></select>
+<label for="offer">Offre ou appel à l'action (facultatif)</label><textarea id="offer" placeholder="Ex. : télécharge mon guide gratuit, réserve un appel..."></textarea>
+<button class="btn primary" type="submit">✦ Générer mon concept vidéo</button>
+<p class="notice">Les propositions sont générées dans ton navigateur à partir de modèles éditoriaux. Aucun compte ni clé API n'est nécessaire.</p>
+</form>
+</section>
+<section class="panel">
+<div class="result-head"><div><h2>Tes contenus</h2><p class="sub" style="margin:4px 0 0">Ton prochain short commence ici.</p></div><button class="btn secondary" id="copyAll" type="button" hidden>Copier tout</button></div>
+<div id="output" class="empty"><div class="spark">✧</div><strong>Prêt à créer ?</strong><br>Renseigne ton sujet puis clique sur « Générer mon concept vidéo ».</div>
+</section>
+</main>
+<footer class="footer"><span>© 2026 VIRAL BUSINESS AI PRO</span><span>Créé pour transformer tes idées en vidéos courtes.</span></footer>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const hooks=[
+s=>`« Tu veux ${s.toLowerCase()} ? Arrête de faire cette erreur. »`,
+s=>`« Personne ne t'explique vraiment comment ${s.toLowerCase()}… »`,
+s=>`« Si je devais recommencer de zéro sur ${s.toLowerCase()}, voici ce que je ferais. »`,
+s=>`« 3 choses à comprendre avant de te lancer dans ${s.toLowerCase()}. »`
+];
+function makeContent(topic,audience,platform,goal,tone,offer){
+const hook=hooks[Math.floor(Math.random()*hooks.length)](topic);
+const intros={
+attirer:`Aujourd'hui, on parle de ${topic}. Si tu es ${audience||"en phase de développement"}, garde bien ces conseils.`,
+eduquer:`Voici une méthode simple pour avancer sur ${topic}. Première étape : clarifie ton objectif. Deuxième étape : passe à une action concrète. Troisième étape : mesure ce qui fonctionne et améliore.`,
+vendre:`Tu rencontres des difficultés avec ${topic} ? Commence par identifier le problème précis, puis choisis une solution adaptée. C'est exactement ce que mon approche cherche à simplifier.`,
+engager:`J'ai une question pour toi au sujet de ${topic} : quelle est la partie la plus difficile aujourd'hui ? Voici mon point de vue.`
+};
+const ending=offer.trim()||({attirer:"Abonne-toi pour plus de conseils business concrets.",eduquer:"Enregistre cette vidéo pour appliquer ces étapes plus tard.",vendre:"Écris-moi « INFO » si tu veux en savoir plus.",engager:"Dis-moi en commentaire ce que tu en penses."}[goal]);
+const toneLine=tone==="Humour et décalé"?"Garde un rythme vif, avec une pointe d'autodérision.":tone==="Expert et crédible"?"Parle calmement, donne un exemple concret et évite les promesses exagérées.":tone==="Inspirant et motivant"?"Mets l'accent sur le progrès, la régularité et le passage à l'action.":tone==="Simple et pédagogique"?"Utilise des phrases courtes et explique une seule idée à la fois.":"Regarde la caméra, va droit au but et coupe les silences.";
+const script=`[0–3 s · ACCROCHE]\n${hook}\n\n[3–10 s · CONTEXTE]\n${intros[goal]}\n\n[10–25 s · VALEUR]\nVoici ce que tu peux faire :\n1. Définis un résultat précis à atteindre.\n2. Choisis une action simple à tester dès aujourd'hui.\n3. Observe le résultat, puis ajuste ta méthode.\n\n[25–35 s · CONCLUSION]\n${ending}`;
+const titles=[`La méthode simple pour ${topic}`,`Ce que tu dois savoir sur ${topic}`,`Arrête cette erreur avec ${topic}`];
+const hashtags=["#business","#entrepreneur","#marketingdigital","#conseilsbusiness","#shorts","#tiktokfrance"];
+const caption=`Tu veux progresser sur ${topic.toLowerCase()} ? Voici un point de départ concret. Teste ces étapes et partage ton expérience en commentaire.\n\n${ending}`;
+return {hook,script,title:titles[Math.floor(Math.random()*titles.length)],caption,hashtags:hashtags.join(" ")+" #"+topic.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,22),platform,toneLine};
+}
+function card(title,content){return `<article class="result-card"><div class="card-top"><h3>${title}</h3><span class="tag">Prêt à utiliser</span></div><div class="result-text">${escapeHtml(content)}</div><div class="copyrow"><button class="btn secondary" type="button" data-copy="${encodeURIComponent(content)}">Copier</button></div></article>`}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+let lastText="";
+$("generator").addEventListener("submit",e=>{
+e.preventDefault();
+const topic=$("topic").value.trim(),audience=$("audience").value.trim(),platform=$("platform").value,goal=$("goal").value,tone=$("tone").value,offer=$("offer").value;
+if(!topic)return;
+const c=makeContent(topic,audience,platform,goal,tone,offer);
+lastText=`VIRAL BUSINESS AI PRO\nPlateforme : ${c.platform}\n\nACCROCHE\n${c.hook}\n\nSCRIPT\n${c.script}\n\nTITRE\n${c.title}\n\nDESCRIPTION\n${c.caption}\n\nHASHTAGS\n${c.hashtags}\n\nCONSEIL DE TOURNAGE\n${c.toneLine}`;
+$("output").className="results";
+$("output").innerHTML=card("Accroche · 3 premières secondes",c.hook)+card("Script vidéo · environ 30 secondes",c.script)+card("Titre accrocheur",c.title)+card("Description",c.caption)+card("Hashtags",c.hashtags)+card("Conseil de tournage",c.toneLine);
+$("copyAll").hidden=false;
+});
+$("output").addEventListener("click",async e=>{
+const btn=e.target.closest("[data-copy]");if(!btn)return;
+await navigator.clipboard.writeText(decodeURIComponent(btn.dataset.copy));
+const old=btn.textContent;btn.textContent="Copié ✓";setTimeout(()=>btn.textContent=old,1300);
+});
+$("copyAll").addEventListener("click",async()=>{if(!lastText)return;await navigator.clipboard.writeText(lastText);$("copyAll").textContent="Copié ✓";setTimeout(()=>$("copyAll").textContent="Copier tout",1300);});
+</script>
+</body>
+</html>
