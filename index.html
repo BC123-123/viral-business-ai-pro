@@ -33,6 +33,7 @@ label{display:block;font-size:12px;color:#c8cada;font-weight:700;margin:15px 0 7
 <label for="platform">Plateforme</label><select id="platform"><option>TikTok</option><option>YouTube Shorts</option><option>Instagram Reels</option><option>Les trois plateformes</option></select>
 <label for="goal">Objectif de la vidéo</label><select id="goal"><option value="attirer">Attirer l'attention et gagner des abonnés</option><option value="eduquer">Éduquer et apporter de la valeur</option><option value="vendre">Présenter une offre et vendre</option><option value="engager">Créer des commentaires et des échanges</option></select>
 <label for="tone">Style</label><select id="tone"><option>Direct et énergique</option><option>Expert et crédible</option><option>Inspirant et motivant</option><option>Humour et décalé</option><option>Simple et pédagogique</option></select>
+<label for="batch">Nombre de scripts à créer</label><select id="batch"><option value="1">1 script</option><option value="5">5 scripts différents</option><option value="10" selected>10 scripts différents</option></select>
 <label for="offer">Offre ou appel à l'action (facultatif)</label><textarea id="offer" placeholder="Ex. : télécharge mon guide gratuit, réserve un appel..."></textarea>
 <button class="btn primary" type="submit">✦ Générer mon concept vidéo</button>
 <p class="notice">Les propositions sont générées dans ton navigateur à partir de modèles éditoriaux. Aucun compte ni clé API n'est nécessaire.</p>
@@ -53,8 +54,10 @@ s=>`« Personne ne t'explique vraiment comment ${s.toLowerCase()}… »`,
 s=>`« Si je devais recommencer de zéro sur ${s.toLowerCase()}, voici ce que je ferais. »`,
 s=>`« 3 choses à comprendre avant de te lancer dans ${s.toLowerCase()}. »`
 ];
-function makeContent(topic,audience,platform,goal,tone,offer){
-const hook=hooks[Math.floor(Math.random()*hooks.length)](topic);
+function makeContent(topic,audience,platform,goal,tone,offer,index=0){
+const hook=hooks[index%hooks.length](topic);
+const angles=["Commence par le problème concret de ton audience.","Montre une erreur fréquente et comment l'éviter.","Présente une méthode en trois étapes.","Appuie-toi sur un exemple concret et vérifiable.","Compare l'approche classique à une alternative simple.","Réponds à une objection fréquente.","Déconstruis une idée reçue.","Donne une checklist courte à enregistrer.","Explique quoi faire en premier et quoi éviter.","Propose un mini-défi à réaliser aujourd'hui."];
+const angle=angles[index%angles.length];
 const intros={
 attirer:`Aujourd'hui, on parle de ${topic}. Si tu es ${audience||"en phase de développement"}, garde bien ces conseils.`,
 eduquer:`Voici une méthode simple pour avancer sur ${topic}. Première étape : clarifie ton objectif. Deuxième étape : passe à une action concrète. Troisième étape : mesure ce qui fonctionne et améliore.`,
@@ -63,11 +66,11 @@ engager:`J'ai une question pour toi au sujet de ${topic} : quelle est la partie 
 };
 const ending=offer.trim()||({attirer:"Abonne-toi pour plus de conseils business concrets.",eduquer:"Enregistre cette vidéo pour appliquer ces étapes plus tard.",vendre:"Écris-moi « INFO » si tu veux en savoir plus.",engager:"Dis-moi en commentaire ce que tu en penses."}[goal]);
 const toneLine=tone==="Humour et décalé"?"Garde un rythme vif, avec une pointe d'autodérision.":tone==="Expert et crédible"?"Parle calmement, donne un exemple concret et évite les promesses exagérées.":tone==="Inspirant et motivant"?"Mets l'accent sur le progrès, la régularité et le passage à l'action.":tone==="Simple et pédagogique"?"Utilise des phrases courtes et explique une seule idée à la fois.":"Regarde la caméra, va droit au but et coupe les silences.";
-const script=`[0–3 s · ACCROCHE]\n${hook}\n\n[3–10 s · CONTEXTE]\n${intros[goal]}\n\n[10–25 s · VALEUR]\nVoici ce que tu peux faire :\n1. Définis un résultat précis à atteindre.\n2. Choisis une action simple à tester dès aujourd'hui.\n3. Observe le résultat, puis ajuste ta méthode.\n\n[25–35 s · CONCLUSION]\n${ending}`;
-const titles=[`La méthode simple pour ${topic}`,`Ce que tu dois savoir sur ${topic}`,`Arrête cette erreur avec ${topic}`];
+const script=`[0–3 s · ACCROCHE]\n${hook}\n\n[3–10 s · CONTEXTE]\n${intros[goal]}\n\n[10–25 s · VALEUR]\nAngle : ${angle}\n1. Identifie le point précis qui bloque ton audience.\n2. Propose une action simple et réaliste à tester aujourd'hui.\n3. Vérifie le résultat et améliore ce qui doit l'être.\n\n[25–35 s · CONCLUSION]\n${ending}`;
+const titles=[`La méthode simple pour ${topic}`,`Ce que tu dois savoir sur ${topic}`,`Arrête cette erreur avec ${topic}`,`Le conseil oublié sur ${topic}`,`3 étapes pour avancer sur ${topic}`,`La vérité sur ${topic}`,`Fais ceci avant ${topic}`,`Le raccourci intelligent pour ${topic}`,`Tu compliques peut-être ${topic}`,`Ton mini-plan pour ${topic}`];
 const hashtags=["#business","#entrepreneur","#marketingdigital","#conseilsbusiness","#shorts","#tiktokfrance"];
 const caption=`Tu veux progresser sur ${topic.toLowerCase()} ? Voici un point de départ concret. Teste ces étapes et partage ton expérience en commentaire.\n\n${ending}`;
-return {hook,script,title:titles[Math.floor(Math.random()*titles.length)],caption,hashtags:hashtags.join(" ")+" #"+topic.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,22),platform,toneLine};
+return {hook,script,title:titles[index%titles.length],caption,hashtags:hashtags.join(" ")+" #"+topic.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,22),platform,toneLine};
 }
 function card(title,content){return `<article class="result-card"><div class="card-top"><h3>${title}</h3><span class="tag">Prêt à utiliser</span></div><div class="result-text">${escapeHtml(content)}</div><div class="copyrow"><button class="btn secondary" type="button" data-copy="${encodeURIComponent(content)}">Copier</button></div></article>`}
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
@@ -76,10 +79,11 @@ $("generator").addEventListener("submit",e=>{
 e.preventDefault();
 const topic=$("topic").value.trim(),audience=$("audience").value.trim(),platform=$("platform").value,goal=$("goal").value,tone=$("tone").value,offer=$("offer").value;
 if(!topic)return;
-const c=makeContent(topic,audience,platform,goal,tone,offer);
-lastText=`VIRAL BUSINESS AI PRO\nPlateforme : ${c.platform}\n\nACCROCHE\n${c.hook}\n\nSCRIPT\n${c.script}\n\nTITRE\n${c.title}\n\nDESCRIPTION\n${c.caption}\n\nHASHTAGS\n${c.hashtags}\n\nCONSEIL DE TOURNAGE\n${c.toneLine}`;
+const count=Number($("batch").value);
+const items=Array.from({length:count},(_,i)=>makeContent(topic,audience,platform,goal,tone,offer,i));
+lastText=items.map((v,i)=>"VIDEO "+(i+1)+"\nHOOK\n"+v.hook+"\n\nSCRIPT\n"+v.script+"\n\nTITLE\n"+v.title+"\n\nDESCRIPTION\n"+v.caption+"\n\nHASHTAGS\n"+v.hashtags+"\n\nFILMING TIP\n"+v.toneLine).join("\n\n--------------------\n\n");
 $("output").className="results";
-$("output").innerHTML=card("Accroche · 3 premières secondes",c.hook)+card("Script vidéo · environ 30 secondes",c.script)+card("Titre accrocheur",c.title)+card("Description",c.caption)+card("Hashtags",c.hashtags)+card("Conseil de tournage",c.toneLine);
+$("output").innerHTML=items.map((v,i)=>'<article class="result-card"><div class="card-top"><h3>Vidéo '+(i+1)+' · '+escapeHtml(v.title)+'</h3><span class="tag">Script '+(i+1)+'/'+count+'</span></div>'+card("Accroche · 3 premières secondes",v.hook)+card("Script vidéo · environ 30 secondes",v.script)+card("Description",v.caption)+card("Hashtags",v.hashtags)+card("Conseil de tournage",v.toneLine)+'</article>').join("");
 $("copyAll").hidden=false;
 });
 $("output").addEventListener("click",async e=>{
