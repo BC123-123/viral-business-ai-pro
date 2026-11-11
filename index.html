@@ -34,6 +34,7 @@ label{display:block;font-size:12px;color:#c8cada;font-weight:700;margin:15px 0 7
 <label for="goal">Objectif de la vidéo</label><select id="goal"><option value="attirer">Attirer l'attention et gagner des abonnés</option><option value="eduquer">Éduquer et apporter de la valeur</option><option value="vendre">Présenter une offre et vendre</option><option value="engager">Créer des commentaires et des échanges</option></select>
 <label for="tone">Style</label><select id="tone"><option>Direct et énergique</option><option>Expert et crédible</option><option>Inspirant et motivant</option><option>Humour et décalé</option><option>Simple et pédagogique</option></select>
 <label for="batch">Nombre de scripts à créer</label><select id="batch"><option value="1">1 script</option><option value="5">5 scripts différents</option><option value="10" selected>10 scripts différents</option></select>
+<label for="speaker">Voix IA</label><select id="speaker"><option value="asteria">Asteria · féminine</option><option value="angus">Angus · masculine</option><option value="orion">Orion · masculine</option><option value="athena">Athena · féminine</option><option value="luna">Luna · féminine</option><option value="zeus">Zeus · masculine</option></select>
 <label for="offer">Offre ou appel à l'action (facultatif)</label><textarea id="offer" placeholder="Ex. : télécharge mon guide gratuit, réserve un appel..."></textarea>
 <button class="btn primary" type="submit">✦ Générer mon concept vidéo</button>
 <p class="notice">Les propositions sont générées dans ton navigateur à partir de modèles éditoriaux. Aucun compte ni clé API n'est nécessaire.</p>
@@ -72,7 +73,7 @@ const hashtags=["#business","#entrepreneur","#marketingdigital","#conseilsbusine
 const caption=`Tu veux progresser sur ${topic.toLowerCase()} ? Voici un point de départ concret. Teste ces étapes et partage ton expérience en commentaire.\n\n${ending}`;
 return {hook,script,title:titles[index%titles.length],caption,hashtags:hashtags.join(" ")+" #"+topic.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,22),platform,toneLine};
 }
-function card(title,content){return `<article class="result-card"><div class="card-top"><h3>${title}</h3><span class="tag">Prêt à utiliser</span></div><div class="result-text">${escapeHtml(content)}</div><div class="copyrow"><button class="btn secondary" type="button" data-copy="${encodeURIComponent(content)}">Copier</button></div></article>`}
+function card(title,content,index){const voiceTools=title.startsWith("Script vidéo")?`<div class="voice-tools" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><button class="btn secondary" type="button" data-voice="${encodeURIComponent(content)}">🔊 Générer la voix IA</button><div class="voice-result" style="margin-top:10px"></div></div>`:"";return `<article class="result-card"><div class="card-top"><h3>${title}</h3><span class="tag">Prêt à utiliser</span></div><div class="result-text">${escapeHtml(content)}</div><div class="copyrow"><button class="btn secondary" type="button" data-copy="${encodeURIComponent(content)}">Copier</button></div>${voiceTools}</article>`}
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 let lastText="";
 $("generator").addEventListener("submit",e=>{
@@ -87,6 +88,18 @@ $("output").innerHTML=items.map((v,i)=>'<article class="result-card"><div class=
 $("copyAll").hidden=false;
 });
 $("output").addEventListener("click",async e=>{
+const voiceBtn=e.target.closest("[data-voice]");
+if(voiceBtn){
+const toolsBox=voiceBtn.parentElement;const result=toolsBox.querySelector(".voice-result");
+voiceBtn.disabled=true;voiceBtn.textContent="Génération de la voix…";result.textContent="Cela peut prendre quelques secondes.";
+try{
+const response=await fetch("https://viral-business-voice.brice-colubi.workers.dev/",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({text:decodeURIComponent(voiceBtn.dataset.voice),speaker:$("speaker").value})});
+if(!response.ok){let message="Erreur du service vocal ("+response.status+").";try{const data=await response.json();if(data.error)message=data.error;}catch{}throw new Error(message);}
+const blob=await response.blob();if(!blob.type.includes("audio"))throw new Error("Le service n’a pas renvoyé de fichier audio.");
+const url=URL.createObjectURL(blob);result.innerHTML="";const player=document.createElement("audio");player.controls=true;player.src=url;player.style.width="100%";player.style.marginBottom="8px";const download=document.createElement("a");download.href=url;download.download="viral-business-voice.mp3";download.textContent="Télécharger le MP3";download.style.color="var(--cyan)";download.style.display="block";download.style.fontWeight="700";result.append(player,download);voiceBtn.textContent="✓ Voix générée";
+}catch(error){result.textContent=error.message||"Impossible de générer la voix. Réessaie dans un instant.";voiceBtn.textContent="🔊 Réessayer";voiceBtn.disabled=false;}
+return;
+}
 const btn=e.target.closest("[data-copy]");if(!btn)return;
 await navigator.clipboard.writeText(decodeURIComponent(btn.dataset.copy));
 const old=btn.textContent;btn.textContent="Copié ✓";setTimeout(()=>btn.textContent=old,1300);
