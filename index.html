@@ -73,7 +73,7 @@ const hashtags=["#business","#entrepreneur","#marketingdigital","#conseilsbusine
 const caption=`Want to make progress with ${topic.toLowerCase()}? Here's a practical place to start. Try these steps and share your experience in the comments.\n\n${ending}`;
 return {hook,script,title:titles[index%titles.length],caption,hashtags:hashtags.join(" ")+" #"+topic.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"").slice(0,22),platform,toneLine};
 }
-function card(title,content,index){const voiceTools=title.startsWith("Script vidéo")?`<div class="voice-tools" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><button class="btn secondary" type="button" data-voice="${encodeURIComponent(content)}">🔊 Générer la voix IA</button><div class="voice-result" style="margin-top:10px"></div></div>`:"";return `<article class="result-card"><div class="card-top"><h3>${title}</h3><span class="tag">Prêt à utiliser</span></div><div class="result-text">${escapeHtml(content)}</div><div class="copyrow"><button class="btn secondary" type="button" data-copy="${encodeURIComponent(content)}">Copier</button></div>${voiceTools}</article>`}
+function card(title,content,withVoice=false){const voiceTools=withVoice?`<div class="voice-tools" style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)"><button class="btn secondary" type="button" data-voice="${encodeURIComponent(content)}">🔊 Générer la voix IA</button><div class="voice-result" style="margin-top:10px"></div></div>`:"";return `<article class="result-card"><div class="card-top"><h3>${title}</h3><span class="tag">Prêt à utiliser</span></div><div class="result-text">${escapeHtml(content)}</div><div class="copyrow"><button class="btn secondary" type="button" data-copy="${encodeURIComponent(content)}">Copier</button></div>${voiceTools}</article>`}
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 let lastText="";
 $("generator").addEventListener("submit",e=>{
@@ -84,7 +84,7 @@ const count=Number($("batch").value);
 const items=Array.from({length:count},(_,i)=>makeContent(topic,audience,platform,goal,tone,offer,i));
 lastText=items.map((v,i)=>"VIDEO "+(i+1)+"\nHOOK\n"+v.hook+"\n\nSCRIPT\n"+v.script+"\n\nTITLE\n"+v.title+"\n\nDESCRIPTION\n"+v.caption+"\n\nHASHTAGS\n"+v.hashtags+"\n\nFILMING TIP\n"+v.toneLine).join("\n\n--------------------\n\n");
 $("output").className="results";
-$("output").innerHTML=items.map((v,i)=>'<article class="result-card"><div class="card-top"><h3>Vidéo '+(i+1)+' · '+escapeHtml(v.title)+'</h3><span class="tag">Script '+(i+1)+'/'+count+'</span></div>'+card("Accroche · 3 premières secondes",v.hook)+card("Script vidéo · environ 30 secondes",v.script)+card("Description",v.caption)+card("Hashtags",v.hashtags)+card("Conseil de tournage",v.toneLine)+'</article>').join("");
+$("output").innerHTML=items.map((v,i)=>'<article class="result-card"><div class="card-top"><h3>Vidéo '+(i+1)+' · '+escapeHtml(v.title)+'</h3><span class="tag">Script '+(i+1)+'/'+count+'</span></div>'+card("Accroche · 3 premières secondes",v.hook)+card("Script vidéo · environ 30 secondes",v.script,true)+card("Description",v.caption)+card("Hashtags",v.hashtags)+card("Conseil de tournage",v.toneLine)+'</article>').join("");
 $("copyAll").hidden=false;
 });
 $("output").addEventListener("click",async e=>{
